@@ -1,6 +1,6 @@
 ﻿/*
 ** Jo Sega Saturn Engine
-** Copyright (c) 2012-2019, Johannes Fetz (johannesfetz@gmail.com)
+** Copyright (c) 2012-2020, Johannes Fetz (johannesfetz@gmail.com)
 ** All rights reserved.
 **
 ** Redistribution and use in source and binary forms, with or without
@@ -41,12 +41,12 @@ namespace JoEngineCueMaker
             {
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("Jo Engine Cuesheet Maker (c) 2019 by Johannes Fetz");
+                Console.WriteLine("Jo Engine Cuesheet Maker v1.1 (c) 2020 by Johannes Fetz");
                 Console.WriteLine();
 
                 string folderPath = args.Length > 0 ? args[0] : Environment.CurrentDirectory;
                 string cueFilePath = Program.GenerateCue(folderPath);
-                
+
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0} generated.", Path.GetFileName(cueFilePath)));
@@ -54,6 +54,11 @@ namespace JoEngineCueMaker
             catch (Exception ex)
             {
                 Program.Error(ex.Message);
+            }
+            finally
+            {
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 
@@ -92,6 +97,8 @@ namespace JoEngineCueMaker
             string ext = Path.GetExtension(file).ToLowerInvariant();
             if (ext == ".mp3")
                 cue.AppendLine(string.Format(CultureInfo.InvariantCulture, "FILE \"{0}\" MP3", Path.GetFileName(file)));
+            if (ext == ".bin")
+                cue.AppendLine(string.Format(CultureInfo.InvariantCulture, "FILE \"{0}\" BINARY", Path.GetFileName(file)));
             else if (ext == ".wav" || ext == ".wave")
                 cue.AppendLine(string.Format(CultureInfo.InvariantCulture, "FILE \"{0}\" WAVE", Path.GetFileName(file)));
             else
